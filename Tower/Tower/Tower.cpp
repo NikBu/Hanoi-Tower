@@ -1,23 +1,21 @@
 ﻿#include <iostream>
-
-
 #include "windows.h"
 
 
 using namespace std;
 
-int Sticks[3][64];
-int top[3] = { -1,-1,-1 };
-int Size;
-char ch[3] = { 'A', 'B', 'C' };
+int Sticks[3][64];//Массив колец
+int top[3] = { -1,-1,-1 }; // "Нулевая" высота
+int Size; //Изначальная высота
+char Pillar[3] = { 'A', 'B', 'C' }; //Массив столбов
 
-void Add_O(int index, int item)
+void Add_O(int index, int item) //Функция добавления колец на столб
 {
     top[index]++;
     Sticks[index][top[index]] = item;
 }
 
-int Delete_O(int index)
+int Delete_O(int index)  //Функция удаления кольца со столба
 {
     int item = Sticks[index][top[index]];
     top[index]--;
@@ -25,7 +23,7 @@ int Delete_O(int index)
 }
 
 
-void Print_O()
+void Print_O() //Функциия вывода перемещений
 {
   
     for (int i = Size; i >= 0; i--) {
@@ -40,22 +38,22 @@ void Print_O()
     cout << "A  B  C \n\n";
 }
 
-void Move_O(int n, int source, int dest, int spare)
+void Move_O(int n, int source, int dest, int spare) //Фукция перемещения колец
 {
 
-    if (n == 1) {
+    if (n == 1) {      
         Add_O(dest, Delete_O(source));
         Print_O();
-        cout << "Перемещение с " << ch[source] << " на " << ch[dest] << " \n";
+        cout << "Перемещение с " << Pillar[source] << " на " << Pillar[dest] << " \n";
     }
     else {
-        Move_O(n - 1, source, spare, dest);
+        Move_O(n - 1, source, spare, dest);  //Реалмзация рекурсивного метода
         Move_O(1, source, dest, spare);
         Move_O(n - 1, spare, dest, source);
     }
 }
 
-int main()
+int main() //Главная функция
 {
     setlocale(LC_ALL, "Russian");
     cout << "Введите размер башни: ";
